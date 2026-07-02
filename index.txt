@@ -1,1 +1,115 @@
-<!DOCTYPE html><html lang="ru"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"><title>GSE</title><link href="https://googleapis.com" rel="stylesheet"><style>*{box-sizing:border-box;margin:0;padding:0;user-select:none;-webkit-user-select:none;touch-action:manipulation}body{background:#0b0d10;min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden}.game-container{position:relative;width:100vw;height:calc(100vw*16/9);max-width:420px;max-height:calc(420px*16/9);box-shadow:0 20px 60px rgba(0,0,0,.8);overflow:hidden;display:flex;flex-direction:column}@media(max-aspect-ratio:9/16){.game-container{width:calc(100vh*9/16);height:100vh}}@media(min-width:320px)and(max-width:480px){.game-container{width:100vw;height:100vh;max-width:none;max-height:none}}.bg-layer,.bg-overlay{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none}.bg-layer{background:url('bg.gif') center center/cover no-repeat;z-index:1;transform:translateZ(0);will-change:transform}.bg-overlay{background:rgba(12,14,18,.88);z-index:2}.game-interface{position:relative;z-index:4;width:100%;height:100%;padding:calc(40px + env(safe-area-inset-top)) 20px 40px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;pointer-events:none}.top-block{display:flex;flex-direction:column;align-items:center;width:100%}.header-title{font-family:'Oswald',sans-serif;font-size:36px;line-height:1.1;text-transform:uppercase;letter-spacing:4px;color:#fff;text-align:center;margin-bottom:20px;animation:crt-glitch .25s infinite linear}.header-title span{display:inline-block;transform:translateZ(0);text-shadow:0 0 4px #ff5500;animation:hm-letter-wave 3s infinite ease-in-out}.stats-dashboard{width:100%;display:flex;justify-content:space-between;align-items:center;margin-top:25px;font-family:'Oswald',sans-serif;text-transform:uppercase;opacity:.75;animation:crt-glitch .4s infinite linear}.stat-card{display:flex;flex-direction:column;flex:1}.stat-card.left{text-align:left}.stat-card.right{text-align:right}.stat-lbl{font-size:12px;letter-spacing:2px;color:#8a95a5;font-weight:500}.stat-num{font-size:63px;font-weight:700;color:#fff;line-height:1;text-shadow:0 0 8px rgba(255,255,255,.4)}#discount-val{color:#ff5500;text-shadow:0 0 12px rgba(255,85,0,.5)}.decor-item,.shoe-item,.mega-stonek,.kroks-danger{position:absolute;z-index:5;will-change:transform;pointer-events:none;left:0;top:0}.decor-item{background:url('stonek.png') center center/contain no-repeat}.shoe-item{background:url('krosi.png') center center/contain no-repeat;z-index:6}.target-shoe{width:112px!important;height:112px!important;cursor:pointer;pointer-events:auto!important}.boss-shoe{width:160px!important;height:160px!important;z-index:7;cursor:pointer;pointer-events:auto!important;filter:drop-shadow(0 0 15px #ff5500) brightness(1.4);animation:boss-pulse .4s infinite alternate}.mega-stonek{background:url('stonek.png') center center/contain no-repeat;width:180px!important;height:180px!important;z-index:8;cursor:pointer;pointer-events:auto!important;filter:drop-shadow(0 0 20px #dfb776) brightness(1.3)}.kroks-danger{background:url('kroks.png') center center/contain no-repeat;width:160px!important;height:160px!important;z-index:9;cursor:pointer;pointer-events:auto!important;animation:kroks-alarm .3s infinite alternate}.floating-plus{position:absolute;font-family:'Oswald',sans-serif;font-size:26px;font-weight:bold;z-index:999;pointer-events:none;animation:floatUpPlus .4s ease-out forwards}.punch-effect{position:absolute;width:84px;height:84px;background:url('KULAK.png') center center/contain no-repeat;z-index:998;pointer-events:none;transform:translate(-50%,-50%);animation:punchHit .4s cubic-bezier(0.175,0.885,0.32,1.275) forwards}.punch-mega{width:97px!important;height:94px!important}.punch-ultra{width:120px!important;height:120px!important}@keyframes hm-letter-wave{0%,100%{transform:translateY(0) rotate(-3deg)}33%{transform:translateY(-4px) rotate(3deg) scaleY(1.05)}66%{transform:translateY(3px) rotate(-2deg) scaleY(0.95)}}@keyframes crt-glitch{0%,100%{filter:skewX(0deg)}15%{filter:skewX(-0.3deg) brightness(1.05)}65%{filter:skewX(0.3deg)}}@keyframes floatUpPlus{0%{transform:translateY(0) scale(1.2);opacity:1}100%{transform:translateY(-50px) scale(0.8);opacity:0}}@keyframes punchHit{0%{transform:translate(-50%,-50%) scale(0.4);opacity:1}20%{transform:translate(-50%,-50%) scale(1.3) rotate(-10deg)}40%{transform:translate(-48%,-52%) scale(1.2) rotate(10deg)}100%{transform:translate(-50%,-50%) scale(1);opacity:0}}@keyframes boss-pulse{0%{filter:drop-shadow(0 0 10px #ff5500) brightness(1.3)}100%{filter:drop-shadow(0 0 25px #ff5500) brightness(1.6)}}@keyframes kroks-alarm{0%{filter:drop-shadow(0 0 20px #cc0000) brightness(1.2);transform:scale(1) rotate(-5deg)}100%{filter:drop-shadow(0 0 40px #cc0000) brightness(1.5);transform:scale(1.1) rotate(5deg)}}</style></head><body><div class="game-container" id="stage"><div class="bg-layer"></div><div class="bg-overlay"></div><div class="game-interface"><div class="top-block"><h1 class="header-title" id="hotline-text">Продуктовый<br>магазин</h1><div class="stats-dashboard"><div class="stat-card left"><span class="stat-lbl">УДАРЫ</span><span class="stat-num" id="score-val">0</span></div><div class="stat-card right"><span class="stat-lbl">СКИДКА</span><span class="stat-num"><span id="discount-val">0</span>%</span></div></div></div></div></div><script>const textContainer=document.getElementById('hotline-text'),textStr=textContainer.innerHTML;textContainer.innerHTML='';let delay=0;textStr.split('<br>').forEach((part,index)=>{part.split('').forEach(char=>{const span=document.createElement('span');span.innerHTML=char===' '?'&nbsp;':char;span.style.animationDelay=`${delay}s`;delay+=.08;textContainer.appendChild(span)});if(index===0)textContainer.appendChild(document.createElement('br'))});const stage=document.getElementById('stage'),scoreVal=document.getElementById('score-val'),discountVal=document.getElementById('discount-val');let score=localStorage.getItem('gse_score')?parseInt(localStorage.getItem('gse_score')):0;function updateMatchStats(){scoreVal.textContent=score.toLocaleString();let d=Math.floor(score/1000);discountVal.textContent=d>10?10:d}updateMatchStats();function createDecorItem(){const item=document.createElement('div');item.className='decor-item';const size=Math.floor(Math.random()*20)+26;item.style.width=item.style.height=size+'px';item.style.opacity=(Math.random()*.4+.2).toFixed(2);const startX=Math.random()*(stage.clientWidth-46);let currentY=-120,currentRotation=Math.random()*360;const speed=Math.random()*1.5+2,rotationSpeed=(Math.random()*2-1)*2;item.style.transform=`translate3d(${startX}px,${currentY}px,0) rotate(${currentRotation}deg)`;stage.appendChild(item);function fall(){if(!stage.contains(item))return;currentY+=speed;currentRotation+=rotationSpeed;item.style.transform=`translate3d(${startX}px,${currentY}px,0) rotate(${currentRotation}deg)`;if(currentY>stage.clientHeight+120)item.remove();else requestAnimationFrame(fall)}requestAnimationFrame(fall)}function createTarget(type='target'){const el=document.createElement('div'),isBoss=(type==='boss'),isMegaStone=(type==='mega_stone'),isKroks=(type==='kroks');if(isBoss)el.className='shoe-item boss-shoe';else if(isMegaStone)el.className='mega-stonek';else if(isKroks)el.className='kroks-danger';else el.className='shoe-item target-shoe';const sizeOffset=isKroks?160:(isMegaStone?180:(isBoss?160:112)),w=stage.clientWidth||window.innerWidth,h=stage.clientHeight||window.innerHeight;const randX=Math.random()*(w-sizeOffset);const randY=isKroks?(Math.random()*(h-sizeOffset-250)+200):-190;const currentRotation=Math.random()*360;el.style.left=randX+'px';el.style.top=randY+'px';if(!isKroks){var speed=isMegaStone?(h+200)/300:(isBoss?(Math.random()*3+4.5):(Math.random()*2+3.5));var rotationSpeed=isMegaStone?.5:(isBoss?(Math.random()*2-1)*3:(Math.random()*2-1)*2);el.style.transform=`rotate(${currentRotation}deg)`}stage.appendChild(el);if(isKroks){setTimeout(()=>{if(stage.contains(el))el.remove()},4000)}el.addEventListener('click',e=>{e.stopPropagation();if(isKroks){score=0;localStorage.setItem('gse_score',0);updateMatchStats();el.remove();return}const points=isMegaStone?10:(isBoss?5:1);score+=points;localStorage.setItem('gse_score',score);updateMatchStats();const rect=stage.getBoundingClientRect(),clickX=e.clientX-rect.left,clickY=e.clientY-rect.top,punch=document.createElement('div');punch.className=isMegaStone?'punch-effect punch-ultra':(isBoss?'punch-effect punch-mega':'punch-effect');punch.style.left=clickX+'px';punch.style.top=clickY+'px';stage.appendChild(punch);setTimeout(()=>punch.remove(),400);const plus=document.createElement('div');plus.className='floating-plus';plus.textContent=`+${points}`;if(isBoss||isMegaStone)plus.style.color='#ff5500';plus.style.left=clickX+'px';plus.style.top=(clickY-25)+'px';stage.appendChild(plus);setTimeout(()=>plus.remove(),400);el.remove()});var fallY=randY;function fall(){if(!stage.contains(el)||isKroks)return;fallY+=speed;el.style.top=fallY+'px';if(fallY>h+190)el.remove();else requestAnimationFrame(fall)}requestAnimationFrame(fall)}setInterval(createDecorItem,450);function loopSpawn(type,minTime,maxTime){createTarget(type);setTimeout(()=>loopSpawn(type,minTime,maxTime),Math.random()*(maxTime-minTime)+minTime)}setTimeout(()=>loopSpawn('target',1200,2500),1000);setTimeout(()=>loopSpawn('boss',10000,25000),5000);setTimeout(()=>loopSpawn('mega_stone',35000,65000),15000);function loopSpawnKroks(){createTarget('kroks');setTimeout(loopSpawnKroks,30000)}setTimeout(loopSpawnKroks,15000);</script></body></html>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+    <title>GSE</title>
+    <link href="https://googleapis.com" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-container" id="stage">
+        <div class="bg-layer"></div>
+        <div class="bg-overlay"></div>
+        <div class="game-interface">
+            <!-- Название жестко зафиксировано сверху по центру -->
+            <div class="top-block">
+                <h1 class="header-title" id="hotline-text">Продуктовый<br>магазин</h1>
+            </div>
+            <!-- Счётчики адекватно и стильно опущены в нижнюю треть экрана -->
+            <div class="stats-dashboard">
+                <div class="stat-card left"><span class="stat-lbl">УДАРЫ</span><span class="stat-num" id="score-val">0</span></div>
+                <div class="stat-card right"><span class="stat-lbl">СКИДКА</span><span class="stat-num"><span id="discount-val">0</span>%</span></div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const textContainer = document.getElementById('hotline-text'), textStr = textContainer.innerHTML;
+        textContainer.innerHTML = ''; let delay = 0;
+        textStr.split('<br>').forEach((part, index) => {
+            part.split('').forEach(char => {
+                const span = document.createElement('span'); span.innerHTML = char === ' ' ? '&nbsp;' : char;
+                span.style.animationDelay = `${delay}s`; delay += .08; textContainer.appendChild(span);
+            });
+            if (index === 0) textContainer.appendChild(document.createElement('br'));
+        });
+
+        const stage = document.getElementById('stage'), scoreVal = document.getElementById('score-val'), discountVal = document.getElementById('discount-val');
+        let score = localStorage.getItem('gse_score') ? parseInt(localStorage.getItem('gse_score')) : 0;
+        
+        function updateMatchStats() { 
+            scoreVal.textContent = score.toLocaleString(); 
+            let d = Math.floor(score / 200); 
+            discountVal.textContent = d > 10 ? 10 : d; 
+        }
+        updateMatchStats();
+
+        function createDecorItem() {
+            const item = document.createElement('div'); item.className = 'decor-item';
+            const size = Math.floor(Math.random() * 20) + 26; item.style.width = item.style.height = size + 'px'; item.style.opacity = (Math.random() * .4 + .2).toFixed(2);
+            const startX = Math.random() * (stage.clientWidth - 46); let currentY = -120, currentRotation = Math.random() * 360;
+            const speed = Math.random() * 1.5 + 2, rotationSpeed = (Math.random() * 2 - 1) * 2;
+            item.style.transform = `translate3d(${startX}px, ${currentY}px, 0) rotate(${currentRotation}deg)`; stage.appendChild(item);
+            function fall() {
+                if (!stage.contains(item)) return; currentY += speed; currentRotation += rotationSpeed;
+                item.style.transform = `translate3d(${startX}px, ${currentY}px, 0) rotate(${currentRotation}deg)`;
+                if (currentY > stage.clientHeight + 120) item.remove(); else requestAnimationFrame(fall);
+            }
+            requestAnimationFrame(fall);
+        }
+
+        function createTarget(type = 'target') {
+            const el = document.createElement('div'), isBoss = (type === 'boss'), isMegaStone = (type === 'mega_stone'), isKroks = (type === 'kroks');
+            if (isBoss) el.className = 'shoe-item boss-shoe'; else if (isMegaStone) el.className = 'mega-stonek'; else if (isKroks) el.className = 'kroks-danger'; else el.className = 'shoe-item target-shoe';
+            
+            const sizeOffset = isKroks ? 160 : (isMegaStone ? 180 : (isBoss ? 160 : 112));
+            const w = stage.clientWidth || window.innerWidth;
+            const h = stage.clientHeight || window.innerHeight;
+            
+            const randX = Math.random() * (w - sizeOffset);
+            // Кроксы теперь спавнятся строго по центру, не залезая на нижнюю плашку счета
+            const randY = isKroks ? (Math.random() * (h - sizeOffset - 360) + 160) : -190;
+            const currentRotation = Math.random() * 360;
+            
+            el.style.left = randX + 'px';
+            el.style.top = randY + 'px';
+            
+            if (!isKroks) {
+                var speed = isMegaStone ? (h + 200) / 300 : (isBoss ? (Math.random() * 3 + 4.5) : (Math.random() * 2 + 3.5));
+                var rotationSpeed = isMegaStone ? .5 : (isBoss ? (Math.random() * 2 - 1) * 3 : (Math.random() * 2 - 1) * 2);
+                el.style.transform = `rotate(${currentRotation}deg)`;
+            }
+            
+            stage.appendChild(el);
+            if (isKroks) { setTimeout(() => { if (stage.contains(el)) el.remove(); }, 4000); }
+
+            el.addEventListener('click', e => {
+                e.stopPropagation();
+                if (isKroks) { score = 0; localStorage.setItem('gse_score', 0); updateMatchStats(); el.remove(); return; }
+                const points = isMegaStone ? 10 : (isBoss ? 5 : 1); score += points; localStorage.setItem('gse_score', score); updateMatchStats();
+                const rect = stage.getBoundingClientRect(), clickX = e.clientX - rect.left, clickY = e.clientY - rect.top;
+                const punch = document.createElement('div'); punch.className = isMegaStone ? 'punch-effect punch-ultra' : (isBoss ? 'punch-effect punch-mega' : 'punch-effect');
+                punch.style.left = clickX + 'px'; punch.style.top = clickY + 'px'; stage.appendChild(punch); setTimeout(() => punch.remove(), 400);
+                const plus = document.createElement('div'); plus.className = 'floating-plus'; plus.textContent = `+${points}`; if (isBoss || isMegaStone) plus.style.color = '#ff5500';
+                plus.style.left = clickX + 'px'; plus.style.top = (clickY - 25) + 'px'; stage.appendChild(plus); setTimeout(() => plus.remove(), 400); el.remove();
+            });
+
+            var fallY = randY;
+            function fall() {
+                if (!stage.contains(el) || isKroks) return; fallY += speed; el.style.top = fallY + 'px';
+                if (fallY > h + 190) el.remove(); else requestAnimationFrame(fall);
+            }
+            requestAnimationFrame(fall);
+        }
+
+        setInterval(createDecorItem, 450);
+        function loopSpawn(type, minTime, maxTime) { createTarget(type); setTimeout(() => loopSpawn(type, minTime, maxTime), Math.random() * (maxTime - minTime) + minTime); }
+        setTimeout(() => loopSpawn('target', 1200, 2500), 1000);
+        setTimeout(() => loopSpawn('boss', 10000, 25000), 5000);
+        setTimeout(() => loopSpawn('mega_stone', 35000, 65000), 15000);
+        
+        function loopSpawnKroks() { createTarget('kroks'); setTimeout(loopSpawnKroks, 30000); }
+        setTimeout(loopSpawnKroks, 15000);
+    </script>
+</body>
+</html>
